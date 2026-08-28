@@ -22,13 +22,11 @@ from pydanticDataGuard import MembershipResponse, MembershipCreate
 
 
 
-
 # LAAD DE OMGEVINGSVARIABLE
 load_dotenv()  # Zoekt naar het .env bestand en laadt de inhoud in het geheugen
 
 
 # --- JWT CONFIGURATIE ---
-# os.getenv haalt de sleutel op. De tweede string is een 'fallback' voor het geval het .env bestand mist.
 SECRET_KEY = os.getenv("SECRET_KEY", "fallback_veilige_sleutel_voor_lokale_ontwikkeling")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 10
@@ -57,11 +55,7 @@ def check_if_user_is_logged_in(token: str = Depends(oauth2_scheme)):
 
 
 
-
-
 base.metadata.create_all(bind=engine)
-
-
 
 
 
@@ -98,8 +92,6 @@ def universal_error_handler(request: Request, exc: Exception):
 
 
 
-
-
 # --- Route 1. DE INLOGPOORT (Token Uitdelen) ---
 # Hier komt de klant met zijn username en password
 @app.post("/login")
@@ -127,7 +119,6 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Wrong username or password"
         )
-
 
 
 
@@ -175,9 +166,6 @@ def subscription_port(
 
 
 
-
-
-
 # Weather-API
 
 @app.get("/weather")
@@ -189,10 +177,6 @@ def check_weather(weather: float):
         return {"Normal weather": "Put on a shirt or something like that."}
     else:
         return {"It's freezing!": "Put on something warm."}
-
-
-
-
 
 
 
@@ -220,10 +204,6 @@ def show_member_by_id(
 
     # Na deze return actie wordt alles geregeld met name het sluiten van de database-verbinding en het teruggeven van de data aan de gebruiker
     return member
-
-
-
-
 
 
 
